@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/DZwell/rosh-chodesh-reminder.git"
   },
-  "author": "",
+  "author": "Daniel Zwelling",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DZwell/rosh-chodesh-reminder/issues"
