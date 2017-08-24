@@ -9,9 +9,9 @@ module.exports.sendSms = function(to, message) {
       to: to,
       from: config.sendingNumber,
     }).then(function(data) {
-      console.log('Administrator notified');
+      console.log('Message Sent');
     }).catch(function(err) {
-      console.error('Could not notify administrator');
+      console.error('Error sending message');
       console.error(err);
     });
 };
