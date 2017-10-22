@@ -4,6 +4,8 @@
   "description": "",
   "main": "zmanim.js",
   "dependencies": {
+    "aws-sdk": "^2.104.0",
+    "eslint": "^4.9.0",
     "twilio": "^3.6.3"
   },
   "devDependencies": {},
