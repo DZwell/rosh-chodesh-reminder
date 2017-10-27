@@ -49,10 +49,11 @@ function buildCronJobObject(time) {
 //     }).then();
 // };
 
-const sunsetTime = () => {
+const sunsetTime = module.exports = () => {
     axios.get(sunsetUrl)
         .then(response => {
-            console.log(response.data.results.sunset);
+            const time = response.data.results.sunset;
+            return buildCronJobObject(time);
         }).catch(error => {
             console.log(error);
         });
@@ -60,6 +61,6 @@ const sunsetTime = () => {
 
 // sunsetTime();
 
-module.exports = sunsetTime();
+// module.exports = sunsetTime();
 
 

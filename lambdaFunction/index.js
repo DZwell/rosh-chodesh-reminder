@@ -1,7 +1,14 @@
 const AWS = require('aws-sdk');
 const sunsetTime = require('../scripts/zmanim');
 
-console.log(typeof sunsetTime);
+const cronObject = sunsetTime((data) => {
+    console.log(data.year);
+});
+
+
+
+
+console.log(cronObject);
 
 // exports.handler = (event, context) => {
 //     const cloudwatchevents = new AWS.CloudWatchEvents();
