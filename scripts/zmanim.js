@@ -1,8 +1,6 @@
 // const request = require('request');
 const axios = require('axios');
 const moment = require('moment-timezone');
-const twilioClient = require('../twilioClient/twilioClient');
-const lambda = require('../lambdaFunction/index');
 const hebCalUrl = 'http://www.hebcal.com/hebcal/?v=1&cfg=json&nx=on&year=now&maj=on&min=on';
 const sunsetUrl = 'https://api.sunrise-sunset.org/json?lat=47.608013&lng=-122.335167&formatted=0';
 const myNumber = process.env.MY_NUMBER;
