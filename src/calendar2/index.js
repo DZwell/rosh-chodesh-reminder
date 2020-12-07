@@ -3,7 +3,7 @@ const readline = require('readline');
 const {google} = require('googleapis');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -13,7 +13,7 @@ const TOKEN_PATH = 'token.json';
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
+  authorize(JSON.parse(content), createRoshChodeshEvent);
 });
 
 /**
@@ -66,29 +66,38 @@ function getAccessToken(oAuth2Client, callback) {
   });
 }
 
-/**
- * Lists the next 10 events on the user's primary calendar.
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-function listEvents(auth) {
+function createEvent(month, date) {
+return {
+  'summary': `Rosh chodesh ${month}`,
+  'start': {
+    'dateTime': `${date}T09:00:00-07:00`,
+    'timeZone': 'America/Los_Angeles',
+  },
+  'end': {
+    'dateTime': `${date}T17:00:00-07:00`,
+    'timeZone': 'America/Los_Angeles',
+  },
+  'reminders': {
+    'useDefault': false,
+    'overrides': [
+      {'method': 'email', 'minutes': 24 * 60},
+      {'method': 'popup', 'minutes': 10},
+    ],
+  },
+};
+}
+
+function submitEvent(auth, event) {
   const calendar = google.calendar({version: 'v3', auth});
-  calendar.events.list({
+  calendar.events.insert({
+    auth: auth,
     calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime',
-  }, (err, res) => {
-    if (err) return console.log('The API returned an error: ' + err);
-    const events = res.data.items;
-    if (events.length) {
-      console.log('Upcoming 10 events:');
-      events.map((event, i) => {
-        const start = event.start.dateTime || event.start.date;
-        console.log(`${start} - ${event.summary}`);
-      });
-    } else {
-      console.log('No upcoming events found.');
+    resource: event,
+  }, (err, event) => {
+    if (err) {
+      console.log('There was an error contacting the Calendar service: ' + err);
+      return;
     }
+    console.log('Event created: %s', event.htmlLink);
   });
 }
