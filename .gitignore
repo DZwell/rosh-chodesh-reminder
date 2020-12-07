@@ -1,2 +1,5 @@
 node_modules
 .eslintrc
+credentials.json
+token.json
+.DS_Store
