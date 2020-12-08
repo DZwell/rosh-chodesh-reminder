@@ -1,20 +1,10 @@
 const fs = require('fs');
 const readline = require('readline');
-const {google} = require('googleapis');
+const { google } = require('googleapis');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
-const TOKEN_PATH = 'token.json';
-
-// Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), createRoshChodeshEvent);
-});
+const TOKEN_PATH = './creds/token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -22,7 +12,7 @@ fs.readFile('credentials.json', (err, content) => {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback) {
+exports.authorize = function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
@@ -63,41 +53,5 @@ function getAccessToken(oAuth2Client, callback) {
       });
       callback(oAuth2Client);
     });
-  });
-}
-
-function createEvent(month, date) {
-return {
-  'summary': `Rosh chodesh ${month}`,
-  'start': {
-    'dateTime': `${date}T09:00:00-07:00`,
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': `${date}T17:00:00-07:00`,
-    'timeZone': 'America/Los_Angeles',
-  },
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10},
-    ],
-  },
-};
-}
-
-function submitEvent(auth, event) {
-  const calendar = google.calendar({version: 'v3', auth});
-  calendar.events.insert({
-    auth: auth,
-    calendarId: 'primary',
-    resource: event,
-  }, (err, event) => {
-    if (err) {
-      console.log('There was an error contacting the Calendar service: ' + err);
-      return;
-    }
-    console.log('Event created: %s', event.htmlLink);
   });
 }
