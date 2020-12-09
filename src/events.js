@@ -1,6 +1,10 @@
 const { google } = require('googleapis');
+const getRoshChodeshim = require('./zmanim').getRoshChodeshim;
 
-function createEvent(month, date) {
+const x = getRoshChodeshim();
+x.then(x => console.log(x))
+
+function _createEvent(month, date) {
   return {
     'summary': `Rosh chodesh ${month}`,
     'start': {
@@ -8,7 +12,7 @@ function createEvent(month, date) {
       'timeZone': 'America/Los_Angeles',
     },
     'end': {
-      'dateTime': `${date}T17:00:00-07:00`,
+      'dateTime': `${date}T09:30:00-07:00`,
       'timeZone': 'America/Los_Angeles',
     },
     'reminders': {
@@ -21,35 +25,8 @@ function createEvent(month, date) {
   };
 }
 
-const event = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2020-12-28T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': '2020-12-28T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    { 'email': 'lpage@example.com' },
-    { 'email': 'sbrin@example.com' },
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      { 'method': 'email', 'minutes': 24 * 60 },
-      { 'method': 'popup', 'minutes': 10 },
-    ],
-  },
-};
-
-exports.submitEvent = function submitEvent(auth) {
+exports.submitEvent = function submitEvent(auth, event) {
+  console.log(monthsMap);
   const calendar = google.calendar({ version: 'v3', auth });
   calendar.events.insert({
     auth: auth,

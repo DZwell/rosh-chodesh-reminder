@@ -1,8 +1,9 @@
 const fs = require('fs');
 const authorize = require('./auth').authorize;
 const submitEvent = require('./events').submitEvent;
+const getRoshChodeshim = require('./zmanim').getRoshChodeshim;
 
-function startup() {
+function startup(events) {
   fs.readFile('./creds/credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     // Authorize a client with credentials, then call the Google Calendar API.
@@ -10,4 +11,7 @@ function startup() {
   });
 }
 
-startup();
+getRoshChodeshim()
+  .then(res => {
+    console.log(res);
+  });

@@ -5,13 +5,14 @@
   "main": "zmanim.js",
   "dependencies": {
     "aws-sdk": "^2.104.0",
-    "axios": "^0.17.0",
     "eslint": "^4.9.0",
     "googleapis": "^39.2.0",
     "moment-timezone": "^0.5.13",
     "twilio": "^3.6.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "axios": "^0.17.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext=.js,.jsx ."
