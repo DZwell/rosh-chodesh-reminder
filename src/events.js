@@ -1,8 +1,4 @@
 const { google } = require('googleapis');
-const getRoshChodeshim = require('./zmanim').getRoshChodeshim;
-
-const x = getRoshChodeshim();
-x.then(x => console.log(x))
 
 function _createEvent(month, date) {
   return {
