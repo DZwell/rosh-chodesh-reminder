@@ -1,7 +1,7 @@
 const fs = require("fs");
 const axios = require("axios");
 const authorize = require("./auth").authorize;
-const submitEvent = require("./events").submitEvent;
+const submitEvent = require("./events").submitEvents;
 const hebCalUrl =
   "http://www.hebcal.com/hebcal/?v=1&cfg=json&nx=on&year=now&maj=on&min=on";
 

@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const sunset = 'https://api.sunrise-sunset.org/json?lat=47.55218304932781&lng=-122.26786289567866&date=2020-12-13&formatted=0';
 
 function _createEvent(month, date) {
   return {
@@ -21,7 +22,7 @@ function _createEvent(month, date) {
   };
 }
 
-exports.submitEvent = function submitEvent(auth, event) {
+exports.submitEvents = function submitEvent(monthsMap, auth) {
   console.log(monthsMap);
   const calendar = google.calendar({ version: 'v3', auth });
   calendar.events.insert({
